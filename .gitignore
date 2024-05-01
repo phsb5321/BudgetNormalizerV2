@@ -23,3 +23,8 @@ go.work
 go.sum
 *.csv
 .vscode
+.env
+
+# logs
+logs/
+application.log
