@@ -28,7 +28,7 @@ linters:
     - gochecknoglobals
     - godox
     - goerr113
-    - gomnd
+    - gomnd 
     - gomodguard
     - goprintffuncname
     - gosec

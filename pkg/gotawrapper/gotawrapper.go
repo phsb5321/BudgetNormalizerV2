@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/go-gota/gota/dataframe"
-	"github.com/go-gota/gota/series"
 )
 
 func LoadCSV(filePath string) (dataframe.DataFrame, error) {
@@ -56,24 +55,4 @@ func SaveCSV(df dataframe.DataFrame, filePath string) error {
 	}
 
 	return nil
-}
-
-func MutateDataFrameWithSeries(
-	df dataframe.DataFrame,
-	data []string, columnType string,
-	columnName string,
-) dataframe.DataFrame {
-	var col series.Series
-	switch columnType {
-	case "string":
-		col = series.New(data, series.String, columnName)
-	case "float":
-		col = series.New(data, series.Float, columnName)
-	case "int":
-		col = series.New(data, series.Int, columnName)
-	default:
-		return df
-	}
-
-	return df.Mutate(col)
 }

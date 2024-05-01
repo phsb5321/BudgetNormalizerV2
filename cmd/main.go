@@ -1,31 +1,40 @@
-// cmd/main.go
 package main
 
 import (
+	"log"
+	"os"
+	"path/filepath"
+
 	"ActualBudgetNormalizerV2/internal/app"
 	"ActualBudgetNormalizerV2/pkg/gotawrapper"
-	"log"
-	"path/filepath"
 )
 
 func main() {
-	// Define the CSV path
-	csvPath := filepath.Join("DATA", "EXTRATO.csv")
+	// Define the path to the log file
+	logPath := filepath.Join("logs", "application.log")
 
-	// Load the CSV data
+	// Open or create the log file
+	logFile, err := os.OpenFile(logPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatalf("Failed to open log file: %v", err)
+	}
+	defer logFile.Close()
+
+	// Set the log output to the file
+	log.SetOutput(logFile)
+
+	// Load the CSV file
+	csvPath := filepath.Join("DATA", "EXTRATO.csv")
 	dataFrame, err := gotawrapper.LoadCSV(csvPath)
 	if err != nil {
 		log.Fatalf("Error loading CSV from path %s: %v", csvPath, err)
 	}
 
-	// Create a new application
-	app := app.NewApp(dataFrame)
-
-	// Run the application
-	if err := app.Run(); err != nil {
+	// Create and run the application instance
+	appInstance := app.NewApp(dataFrame, "mistral")
+	if err := appInstance.Run(); err != nil {
 		log.Fatalf("Error running application: %v", err)
 	}
 
-	// Log successful execution
 	log.Println("Data processed and saved successfully.")
 }

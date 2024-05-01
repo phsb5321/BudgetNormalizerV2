@@ -2,11 +2,8 @@
 package gotawrapper
 
 import (
-	"log"
 	"path/filepath"
 	"testing"
-
-	"github.com/go-gota/gota/series"
 )
 
 func TestLoadCSV(t *testing.T) {
@@ -19,7 +16,6 @@ func TestLoadCSV(t *testing.T) {
 	if df.Nrow() == 0 {
 		t.Error("Expected non-empty DataFrame")
 	}
-	log.Println(df)
 }
 
 func TestRowToString(t *testing.T) {
@@ -50,27 +46,5 @@ func TestSaveCSV(t *testing.T) {
 	err = SaveCSV(df, newCsvPath)
 	if err != nil {
 		t.Errorf("SaveCSV() error = %v, wantErr %v", err, false)
-	}
-}
-
-func TestMutateDataFrameWithSeries(t *testing.T) {
-	csvPath := filepath.Join("..", "..", "testdata", "testdata.csv")
-	df, err := LoadCSV(csvPath)
-	if err != nil {
-		t.Errorf("LoadCSV() error = %v, wantErr %v", err, false)
-		return
-	}
-
-	data := []string{"Category1", "Category2", "Category1", "Category3"}
-	columnType := "string"
-	columnName := "Categories"
-
-	mutatedDf := MutateDataFrameWithSeries(df, data, columnType, columnName)
-	if mutatedDf.Ncol() != df.Ncol()+1 {
-		t.Errorf("Expected mutated DataFrame to have one more column than the original")
-	}
-
-	if mutatedDf.Col(columnName).Type() != series.String {
-		t.Errorf("Expected mutated DataFrame to have a string column")
 	}
 }
