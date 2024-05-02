@@ -31,7 +31,7 @@ func main() {
 	}
 
 	// Create and run the application instance
-	appInstance := app.NewApp(dataFrame, "mistral")
+	appInstance := app.NewApp(dataFrame, "phi3")
 	if err := appInstance.Run(); err != nil {
 		log.Fatalf("Error running application: %v", err)
 	}
