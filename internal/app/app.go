@@ -32,23 +32,19 @@ type App struct {
 	originalDataFrame  dataframe.DataFrame
 	processedDataFrame dataframe.DataFrame
 	setsOfRows         *SetsOfRows
-	chanUIProgressInfo chan float64
 }
 
 // NewApp creates a new application instance with necessary initializations.
 func NewApp(originalDataFrame dataframe.DataFrame, llmName string) *App {
 	return &App{
-		originalDataFrame:  originalDataFrame,
-		setsOfRows:         NewSetsOfRows(),
-		chanUIProgressInfo: make(chan float64),
-		llmName:            llmName,
+		originalDataFrame: originalDataFrame,
+		setsOfRows:        NewSetsOfRows(),
+		llmName:           llmName,
 	}
 }
 
 // Run starts the application's main logic, processing each row and handling the UI.
 func (a *App) Run() error {
-	// go ui.StartUI(a.chanUIProgressInfo)
-
 	totalRows := a.originalDataFrame.Nrow()
 	var processedData []*utils.ResponseData
 	for i := 0; i < totalRows; i++ {

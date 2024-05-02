@@ -35,10 +35,6 @@ func (a *App) ProcessRow(rowIndex, totalRows int) *utils.ResponseData {
 		return nil
 	}
 
-	// Calculate and send the progress update to the UI.
-	progress := float64(rowIndex+1) / float64(totalRows)
-	a.chanUIProgressInfo <- progress
-
 	// Update categorization sets based on the new data received from the LLM.
 	updates := map[string]string{
 		"categories": result.Category,
